@@ -11,13 +11,20 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "creators")
+@Document(collection = "creatorsCollection")
 public class Creator {
 
     @Id
-    private ObjectId accountId;
+    private ObjectId id;
     private String avatar;
     private String email;
     private String username;
     private String password;
+
+    public Creator(String avatar, String email, String password, String username) {
+        this.avatar = avatar;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+    }
 }

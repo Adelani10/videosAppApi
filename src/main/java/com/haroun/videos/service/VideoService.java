@@ -24,14 +24,14 @@ public class VideoService {
         return videoRepo.save(video);
     }
 
-    public List<Video> getVideosUploadedByCreator(int id) {
+    public List<Video> getVideosUploadedByCreator(String username) {
         List<Video> creatorVideos = new ArrayList<>();
 
         List<Video> allVideos = getAllVideos();
 
         try {
             for(Video video : allVideos){
-                if(video.getCreator().getAccountId().getTimestamp() == id){
+                if(video.getCreator().getUsername().equals(username)){
                     creatorVideos.add(video);
                 }
             }
