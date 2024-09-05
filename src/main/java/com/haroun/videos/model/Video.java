@@ -16,11 +16,23 @@ public class Video {
 
     @Id
     private ObjectId id;
+    private int cfId;
     private String title;
     private String prompt;
     private String thumbnail;
     private String video;
     private Creator creator;
 
-
+    @Override
+    public String toString() {
+        return "Video{" +
+                "cfId=" + cfId +
+                ", id=" + id +
+                ", title='" + title + '\'' +
+                ", prompt='" + prompt + '\'' +
+                ", thumbnail='" + thumbnail + '\'' +
+                ", video='" + video + '\'' +
+                ", creator=" + creator +
+                '}';
+    }
 }

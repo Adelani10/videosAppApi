@@ -7,6 +7,8 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
@@ -18,13 +20,11 @@ public class Creator {
     private ObjectId id;
     private String avatar;
     private String email;
+    private List<Video> bookmarks;
     private String username;
     private String password;
 
-    public Creator(String avatar, String email, String password, String username) {
-        this.avatar = avatar;
-        this.email = email;
-        this.password = password;
-        this.username = username;
+    public Creator(List<Video> bookmarks) {
+        this.bookmarks = bookmarks;
     }
 }
