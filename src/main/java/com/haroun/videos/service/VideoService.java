@@ -1,77 +1,128 @@
 package com.haroun.videos.service;
 
+import com.haroun.videos.model.Creator;
 import com.haroun.videos.model.Video;
 import com.haroun.videos.repo.SearchRepository;
 import com.haroun.videos.repo.VideoRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Stream;
 
 
 @Service
 public class VideoService {
 
-    @Autowired
-    private VideoRepository videoRepo;
+  @Autowired
+  private VideoRepository videoRepo;
 
-    @Autowired
-    private SearchRepository searchRepository;
+  @Autowired
+  private SearchRepository searchRepository;
 
-    public List<Video> getAllVideos() {
-        return videoRepo.findAll();
-    }
+  public List<Video> getAllVideos() {
+    return videoRepo.findAll();
+  }
 
-    public Video addVideo(Video video) {
-        return videoRepo.save(video);
-    }
+  public Video addVideo(Video video) {
+    return videoRepo.save(video);
+  }
 
-    public List<Video> getVideosUploadedByCreator(String username) {
-        List<Video> creatorVideos = new ArrayList<>();
+  public List<Video> getVideosUploadedByCreator(String username) {
+    List<Video> creatorVideos = new ArrayList<>();
 
-        List<Video> allVideos = getAllVideos();
+    List<Video> allVideos = getAllVideos();
 
-        try {
-            for(Video video : allVideos){
-                if(video.getCreator().getUsername().equals(username)){
-                    creatorVideos.add(video);
-                }
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+    try {
+      for (Video video : allVideos) {
+        if (video.getCreator().getUsername().equals(username)) {
+          creatorVideos.add(video);
         }
-
-        return creatorVideos;
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
 
-    public Video addBookmarks(Video video, int id){
-        Video editedVid = new Video();
+    return creatorVideos;
+  }
 
-        List<Video> allVideos = getAllVideos();
+  public List<Video> searchByText(String text) {
+    return searchRepository.findByText(text);
+  }
 
-        for(Video vid : allVideos){
-            if(vid.getCfId() == id){
-                editedVid = vid;
-            }
-        }
+//  public void addBookmarks(Video video, int id) {
+//    Video editedVidObject = new Video();
+//
+//    List<Video> allVideos = getAllVideos();
+//
+//    for (Video vid : allVideos) {
+//      if (vid.getCfId() == id) {
+//        editedVidObject = vid;
+//      }
+//    }
+//
+//    try {
+//      if (!editedVidObject.getCreator().getBookmarks().contains(video)) {
+//        editedVidObject.getCreator().getBookmarks().add(video);
+//        videoRepo.save(editedVidObject);
+//      }
+//    } catch (Exception e) {
+//      throw new RuntimeException(e);
+//    }
+//  }
 
-        try {
-            if(!editedVid.getCreator().getBookmarks().contains(video)){
-                editedVid.getCreator().getBookmarks().add(video);
-                return videoRepo.save(editedVid);
-            } else {
-                return videoRepo.save(editedVid);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+  public void addBookmarks(Video video, int id) {
+    List<Video> allVideos = getAllVideos();
+
+    Video editedVidObject = allVideos.stream()
+        .filter(vid -> vid.getCfId() == id)
+        .findFirst()
+        .orElse(null);
+
+    if (editedVidObject == null) {
+      throw new RuntimeException("Video not found with id: " + id);
     }
 
-    public List<Video> searchByText(String text) {
-        return searchRepository.findByText(text);
+    try {
+      // Check if bookmarks exist and doesn't already contain the given video
+      Creator creator = editedVidObject.getCreator();
+      if (creator != null && !creator.getBookmarks().contains(video)) {
+        creator.getBookmarks().add(video);
+        videoRepo.save(editedVidObject); // Persist changes
+      } else {
+        throw new RuntimeException("Video already contained in bookmark");
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
     }
+  }
+
+  public void removeBookmarks(Video video, int id) {
+    List<Video> allVideos = getAllVideos();
+
+    // Find the video with the matching ID using equals for Object comparison
+    Video editedVidObject = allVideos.stream()
+        .filter(vid -> vid.getCfId() == id)
+        .findFirst()
+        .orElse(null);
+
+    // Check if the video was found
+    if (editedVidObject == null) {
+      throw new RuntimeException("Video not found with id: " + id);
+    }
+
+    try {
+      // Check if bookmarks exist and contains the given video
+      Creator creator = editedVidObject.getCreator();
+      if (creator != null && !creator.getBookmarks().isEmpty() && creator.getBookmarks().contains(video)) {
+        creator.getBookmarks().remove(video);
+        videoRepo.save(editedVidObject); // Persist changes
+      } else {
+        throw new RuntimeException("Video not found in bookmarks");
+      }
+    } catch (Exception e) {
+      throw new RuntimeException(e);
+    }
+  }
+
 }

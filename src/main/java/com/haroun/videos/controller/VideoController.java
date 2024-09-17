@@ -11,6 +11,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/api/v1")
 public class VideoController {
 
@@ -32,9 +33,14 @@ public class VideoController {
     return new ResponseEntity<>(videoService.addVideo(video), HttpStatus.CREATED);
   }
 
-  @PutMapping("/videos/{id}")
-  public ResponseEntity<Video> addBookmarks(@RequestBody Video video, @PathVariable int id) {
-    return new ResponseEntity<>(videoService.addBookmarks(video, id), HttpStatus.CREATED);
+  @PutMapping("/bookmark/{id}")
+  public void addBookmarks(@RequestBody Video video, @PathVariable int id) {
+    videoService.addBookmarks(video, id);
+  }
+
+  @PutMapping("/remove_bookmark/{id}")
+  public void removeBookmarks(@RequestBody Video video, @PathVariable int id) {
+    videoService.removeBookmarks(video, id);
   }
 
   @GetMapping("/videos/search/{text}")
