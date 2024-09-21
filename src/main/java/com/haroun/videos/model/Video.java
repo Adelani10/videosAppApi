@@ -16,9 +16,9 @@ import java.util.Objects;
 @Document(collection = "videosCollection")
 public class Video {
 
+
   @Id
-  private ObjectId id;
-  private int cfId;
+  private ObjectId cfId;
   private String title;
   private String prompt;
   private String thumbnail;
@@ -26,10 +26,22 @@ public class Video {
   private Creator creator;
 
   @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Video video = (Video) o;
+    return Objects.equals(cfId.getTimestamp(), video.cfId.getTimestamp());
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(cfId.getTimestamp());
+  }
+
+  @Override
   public String toString() {
     return "Video{" +
         "cfId=" + cfId +
-        ", id=" + id +
         ", title='" + title + '\'' +
         ", prompt='" + prompt + '\'' +
         ", thumbnail='" + thumbnail + '\'' +
@@ -38,16 +50,5 @@ public class Video {
         '}';
   }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Video video = (Video) o;
-    return cfId == video.cfId;
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hashCode(cfId);
-  }
 }

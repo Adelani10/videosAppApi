@@ -16,15 +16,14 @@ import java.util.List;
 @Document(collection = "creatorsCollection")
 public class Creator {
 
-    @Id
-    private ObjectId id;
-    private String avatar;
-    private String email;
-    private List<Video> bookmarks;
-    private String username;
-    private String password;
+  @Id
+  private ObjectId accountId;
+  private String email;
+  private String username;
+  private List<Video> bookmarks;
+  private String password;
 
-    public Creator(List<Video> bookmarks) {
-        this.bookmarks = bookmarks;
-    }
+  public Creator(List<Video> bookmarks) {
+    this.bookmarks = bookmarks;
+  }
 }

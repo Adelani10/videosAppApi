@@ -50,32 +50,11 @@ public class VideoService {
     return searchRepository.findByText(text);
   }
 
-//  public void addBookmarks(Video video, int id) {
-//    Video editedVidObject = new Video();
-//
-//    List<Video> allVideos = getAllVideos();
-//
-//    for (Video vid : allVideos) {
-//      if (vid.getCfId() == id) {
-//        editedVidObject = vid;
-//      }
-//    }
-//
-//    try {
-//      if (!editedVidObject.getCreator().getBookmarks().contains(video)) {
-//        editedVidObject.getCreator().getBookmarks().add(video);
-//        videoRepo.save(editedVidObject);
-//      }
-//    } catch (Exception e) {
-//      throw new RuntimeException(e);
-//    }
-//  }
-
   public void addBookmarks(Video video, int id) {
     List<Video> allVideos = getAllVideos();
 
     Video editedVidObject = allVideos.stream()
-        .filter(vid -> vid.getCfId() == id)
+        .filter(vid -> vid.getCfId().getTimestamp() == id)
         .findFirst()
         .orElse(null);
 
@@ -102,7 +81,7 @@ public class VideoService {
 
     // Find the video with the matching ID using equals for Object comparison
     Video editedVidObject = allVideos.stream()
-        .filter(vid -> vid.getCfId() == id)
+        .filter(vid -> vid.getCfId().getTimestamp() == id)
         .findFirst()
         .orElse(null);
 
