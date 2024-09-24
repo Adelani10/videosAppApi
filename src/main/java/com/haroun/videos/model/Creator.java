@@ -23,7 +23,14 @@ public class Creator {
   private List<Video> bookmarks;
   private String password;
 
-  public Creator(List<Video> bookmarks) {
-    this.bookmarks = bookmarks;
+  @Override
+  public String toString() {
+    return "Creator{" +
+        "accountId=" + accountId +
+        ", email='" + email + '\'' +
+        ", username='" + username + '\'' +
+        ", bookmarks=" + bookmarks +
+        ", password='" + password + '\'' +
+        '}';
   }
 }

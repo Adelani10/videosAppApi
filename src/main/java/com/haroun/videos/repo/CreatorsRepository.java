@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CreatorsRepository extends MongoRepository<Creator, ObjectId> {
+
+  Creator findByEmail(String email);
 }
