@@ -1,5 +1,6 @@
 package com.haroun.videos.model;
 
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -8,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
 
+@Getter
 public class CreatorPrincipal implements UserDetails {
 
   @Autowired
@@ -16,7 +18,6 @@ public class CreatorPrincipal implements UserDetails {
   public CreatorPrincipal(Creator creator) {
     this.creator = creator;
   }
-
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -52,4 +53,5 @@ public class CreatorPrincipal implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
 }

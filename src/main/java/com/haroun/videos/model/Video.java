@@ -23,7 +23,6 @@ public class Video {
   private String prompt;
   private String thumbnail;
   private String video;
-  private Creator creator;
 
   @Override
   public boolean equals(Object o) {
@@ -46,9 +45,6 @@ public class Video {
         ", prompt='" + prompt + '\'' +
         ", thumbnail='" + thumbnail + '\'' +
         ", video='" + video + '\'' +
-        ", creator=" + creator +
         '}';
   }
-
-
 }
