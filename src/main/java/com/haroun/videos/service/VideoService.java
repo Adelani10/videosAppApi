@@ -31,8 +31,8 @@ public class VideoService {
   }
 
   public List<Video> getCreatorVideos() {
-    ObjectId currentCreatorId = creatorService.getCurrentCreator().getAccountId();
-    return videoRepo.findByUserId(currentCreatorId);
+    ObjectId userId = creatorService.getCurrentCreator().getAccountId();
+    return videoRepo.findByUserId(userId);
   }
 
   public List<Video> searchByText(String text) {
