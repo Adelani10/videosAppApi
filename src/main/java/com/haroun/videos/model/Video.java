@@ -29,12 +29,12 @@ public class Video {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     Video video = (Video) o;
-    return Objects.equals(cfId.getTimestamp(), video.cfId.getTimestamp());
+    return Objects.equals(prompt, video.prompt);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(cfId.getTimestamp());
+    return Objects.hashCode(prompt);
   }
 
   @Override

@@ -23,10 +23,10 @@ public class VideoController {
     return new ResponseEntity<>(videoService.getAllVideos(), HttpStatus.OK);
   }
 
-//  @GetMapping("/videos/{username}")
-//  public ResponseEntity<List<Video>> getVideosUploadedByCreator(@PathVariable String username) {
-//    return new ResponseEntity<>(videoService.getVideosUploadedByCreator(username), HttpStatus.OK);
-//  }
+  @GetMapping("/videos/creator_videos")
+  public ResponseEntity<List<Video>> getVideosUploadedByCreator(@PathVariable String username) {
+    return new ResponseEntity<>(videoService.getCreatorVideos(), HttpStatus.OK);
+  }
 
   @PostMapping("/videos")
   public ResponseEntity<Video> addVideo(@RequestBody Video video) {

@@ -2,6 +2,7 @@ package com.haroun.videos.controller;
 
 
 import com.haroun.videos.model.Creator;
+import com.haroun.videos.model.Video;
 import com.haroun.videos.service.CreatorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,13 +36,13 @@ public class CreatorController {
     }
   }
 
-//  @PutMapping("/bookmark/{id}")
-//  public void addBookmarks(@RequestBody Video video, @PathVariable int id) {
-//    creatorService.addBookmarks(video, id);
-//  }
+  @PutMapping("/bookmark")
+  public void addBookmarks(@RequestBody Video video) {
+    creatorService.addBookmarks(video);
+  }
 
-//  @PutMapping("/remove_bookmark/{id}")
-//  public void removeBookmarks(@RequestBody Video video, @PathVariable int id) {
-//    creatorService.removeBookmarks(video, id);
-//  }
+  @PutMapping("/remove_bookmark")
+  public void removeBookmarks(@RequestBody Video video) {
+    creatorService.removeBookmarks(video);
+  }
 }

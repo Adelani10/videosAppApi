@@ -3,6 +3,7 @@ package com.haroun.videos.service;
 import com.haroun.videos.model.Video;
 import com.haroun.videos.repo.SearchRepository;
 import com.haroun.videos.repo.VideoRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,9 @@ public class VideoService {
   private VideoRepository videoRepo;
 
   @Autowired
+  private CreatorService creatorService;
+
+  @Autowired
   private SearchRepository searchRepository;
 
   public List<Video> getAllVideos() {
@@ -26,23 +30,10 @@ public class VideoService {
     return videoRepo.save(video);
   }
 
-//  public List<Video> getVideosUploadedByCreator(String username) {
-//    List<Video> creatorVideos = new ArrayList<>();
-//
-//    List<Video> allVideos = getAllVideos();
-//
-//    try {
-//      for (Video video : allVideos) {
-//        if (video.getCreator().getUsername().equals(username)) {
-//          creatorVideos.add(video);
-//        }
-//      }
-//    } catch (Exception e) {
-//      throw new RuntimeException(e);
-//    }
-//
-//    return creatorVideos;
-//  }
+  public List<Video> getCreatorVideos() {
+    ObjectId currentCreatorId = creatorService.getCurrentCreator().getAccountId();
+    return videoRepo.findByUserId(currentCreatorId);
+  }
 
   public List<Video> searchByText(String text) {
     return searchRepository.findByText(text);
