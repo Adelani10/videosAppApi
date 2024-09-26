@@ -23,6 +23,7 @@ public class Video {
   private String prompt;
   private String thumbnail;
   private String video;
+  private ObjectId creatorId;
 
   @Override
   public boolean equals(Object o) {
@@ -37,14 +38,5 @@ public class Video {
     return Objects.hashCode(prompt);
   }
 
-  @Override
-  public String toString() {
-    return "Video{" +
-        "cfId=" + cfId +
-        ", title='" + title + '\'' +
-        ", prompt='" + prompt + '\'' +
-        ", thumbnail='" + thumbnail + '\'' +
-        ", video='" + video + '\'' +
-        '}';
-  }
+
 }

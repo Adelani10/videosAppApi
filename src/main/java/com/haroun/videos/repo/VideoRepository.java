@@ -10,5 +10,5 @@ import java.util.List;
 
 @Repository
 public interface VideoRepository extends MongoRepository<Video, ObjectId> {
-  List<Video> findByUserId(ObjectId userId);
+  List<Video> findByCreatorId(ObjectId creatorId);
 }
