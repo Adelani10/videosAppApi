@@ -2,6 +2,7 @@ package com.haroun.videos.controller;
 
 import com.haroun.videos.model.Video;
 import com.haroun.videos.service.VideoService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +25,8 @@ public class VideoController {
   }
 
   @GetMapping("/videos/creator_videos")
-  public ResponseEntity<List<Video>> getVideosUploadedByCreator() {
-    return new ResponseEntity<>(videoService.getCreatorVideos(), HttpStatus.OK);
+  public ResponseEntity<List<Video>> getVideosUploadedByCreator(@RequestBody ObjectId creatorId) {
+    return new ResponseEntity<>(videoService.getCreatorVideos(creatorId), HttpStatus.OK);
   }
 
   @PostMapping("/videos")
