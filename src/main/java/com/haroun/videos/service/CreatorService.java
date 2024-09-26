@@ -25,11 +25,6 @@ public class CreatorService {
   @Autowired
   private CreatorsRepository creatorsRepository;
 
-  public Creator register(Creator creator) {
-    creator.setPassword(encoder.encode(creator.getPassword()));
-    return creatorsRepository.save(creator);
-  }
-
   public String verify(Creator creator) {
     Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creator.getEmail(), creator.getPassword()));
     if (authentication.isAuthenticated()) {
@@ -37,6 +32,12 @@ public class CreatorService {
     } else {
       return "fail";
     }
+  }
+
+  public String register(Creator creator) {
+    creator.setPassword(encoder.encode(creator.getPassword()));
+    creatorsRepository.save(creator);
+    return verify(creator);
   }
 
   public Creator getCurrentCreator() {

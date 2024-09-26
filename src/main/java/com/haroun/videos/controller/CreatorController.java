@@ -18,7 +18,7 @@ public class CreatorController {
   private CreatorService creatorService;
 
   @PostMapping("/register")
-  public Creator register(@RequestBody Creator creator) {
+  public String register(@RequestBody Creator creator) {
     return creatorService.register(creator);
   }
 
