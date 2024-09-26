@@ -24,7 +24,7 @@ public class VideoController {
   }
 
   @GetMapping("/videos/creator_videos")
-  public ResponseEntity<List<Video>> getVideosUploadedByCreator(@PathVariable String username) {
+  public ResponseEntity<List<Video>> getVideosUploadedByCreator() {
     return new ResponseEntity<>(videoService.getCreatorVideos(), HttpStatus.OK);
   }
 

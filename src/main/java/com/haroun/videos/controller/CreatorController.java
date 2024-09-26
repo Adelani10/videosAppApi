@@ -27,7 +27,7 @@ public class CreatorController {
     return creatorService.verify(creator);
   }
 
-  @GetMapping("/Creator")
+  @GetMapping("/creator")
   public ResponseEntity<Creator> getCurrentCreator() {
     if (creatorService.getCurrentCreator() != null) {
       return new ResponseEntity<>(creatorService.getCurrentCreator(), HttpStatus.OK);
