@@ -17,6 +17,9 @@ public class VideoService {
   private VideoRepository videoRepo;
 
   @Autowired
+  private CreatorService creatorService;
+
+  @Autowired
   private SearchRepository searchRepository;
 
   public List<Video> getAllVideos() {
@@ -27,8 +30,9 @@ public class VideoService {
     return videoRepo.save(video);
   }
 
-  public List<Video> getCreatorVideos(ObjectId creatorId) {
-    return videoRepo.findByCreatorId(creatorId);
+  public List<Video> getCreatorVideos() {
+    ObjectId creatorId = creatorService.getCurrentCreator().getAccountId();
+    return videoRepo.findByCreatorIdTimestamp(creatorId.getTimestamp());
   }
 
   public List<Video> searchByText(String text) {
