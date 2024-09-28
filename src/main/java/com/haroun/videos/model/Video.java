@@ -23,7 +23,8 @@ public class Video {
   private String prompt;
   private String thumbnail;
   private String video;
-  private ObjectId creatorId;
+  private String creatorId;
+  private String creatorUsername;
 
   @Override
   public boolean equals(Object o) {

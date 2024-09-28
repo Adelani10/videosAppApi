@@ -3,7 +3,6 @@ package com.haroun.videos.service;
 import com.haroun.videos.model.Video;
 import com.haroun.videos.repo.SearchRepository;
 import com.haroun.videos.repo.VideoRepository;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +30,9 @@ public class VideoService {
   }
 
   public List<Video> getCreatorVideos() {
-    ObjectId creatorId = creatorService.getCurrentCreator().getAccountId();
-    return videoRepo.findByCreatorIdTimestamp(creatorId.getTimestamp());
+    String creatorId = creatorService.getCurrentCreator().getAccountId().toString();
+    System.out.println("Creator ID: " + creatorId);
+    return videoRepo.findByCreatorId(creatorId);
   }
 
   public List<Video> searchByText(String text) {
