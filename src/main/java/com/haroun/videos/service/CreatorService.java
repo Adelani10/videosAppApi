@@ -33,8 +33,10 @@ public class CreatorService {
       if (!creator.getUsername().isBlank()
           && !creator.getEmail().isBlank()
           && !creator.getPassword().isBlank()) {
-        creator.setPassword(encoder.encode(creator.getPassword()));
+        String plainPassword = creator.getPassword();
+        creator.setPassword(encoder.encode(plainPassword));
         creatorsRepository.save(creator);
+        creator.setPassword(plainPassword);
         return verify(creator);
       } else {
         throw new IllegalArgumentException("Username, email or password must not be blank");
@@ -72,7 +74,8 @@ public class CreatorService {
     return null;
   }
 
-  public void clearCurrentCreatorBookmarks(Creator creator) {
+  public void clearCurrentCreatorBookmarks() {
+    Creator creator = getCurrentCreator();
     creator.getBookmarks().clear();
     creatorsRepository.save(creator);
   }

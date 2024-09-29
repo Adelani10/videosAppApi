@@ -45,8 +45,8 @@ public class CreatorController {
   }
 
   @PutMapping("/creator/clear_bookmarks")
-  public void clearCurrentCreatorBookmarks(Creator creator) {
-    creatorService.clearCurrentCreatorBookmarks(creator);
+  public void clearCurrentCreatorBookmarks() {
+    creatorService.clearCurrentCreatorBookmarks();
   }
 
   @PutMapping("/bookmark")
