@@ -18,13 +18,21 @@ public class CreatorController {
   private CreatorService creatorService;
 
   @PostMapping("/register")
-  public String register(@RequestBody Creator creator) {
-    return creatorService.register(creator);
+  public ResponseEntity<?> register(@RequestBody Creator creator) {
+    try {
+      return new ResponseEntity<>(creatorService.register(creator), HttpStatus.OK);
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
   }
 
   @PostMapping("/login")
-  public String login(@RequestBody Creator creator) {
-    return creatorService.verify(creator);
+  public ResponseEntity<?> login(@RequestBody Creator creator) {
+    try {
+      return new ResponseEntity<>(creatorService.verify(creator), HttpStatus.OK);
+    } catch (RuntimeException ex) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
+    }
   }
 
   @GetMapping("/creator")
@@ -34,6 +42,11 @@ public class CreatorController {
     } else {
       return new ResponseEntity<>(creatorService.getCurrentCreator(), HttpStatus.BAD_REQUEST);
     }
+  }
+
+  @PutMapping("/creator/clear_bookmarks")
+  public void clearCurrentCreatorBookmarks() {
+    creatorService.clearCurrentCreatorBookmarks();
   }
 
   @PutMapping("/bookmark")

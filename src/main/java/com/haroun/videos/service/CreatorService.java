@@ -6,8 +6,10 @@ import com.haroun.videos.model.Video;
 import com.haroun.videos.repo.CreatorsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,19 +27,36 @@ public class CreatorService {
   @Autowired
   private CreatorsRepository creatorsRepository;
 
-  public String verify(Creator creator) {
-    Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creator.getEmail(), creator.getPassword()));
-    if (authentication.isAuthenticated()) {
-      return jwtService.generateToken(creator.getEmail());
-    } else {
-      return "fail";
+
+  public String register(Creator creator) {
+    try {
+      if (!creator.getUsername().isBlank()
+          && !creator.getEmail().isBlank()
+          && !creator.getPassword().isBlank()) {
+        creator.setPassword(encoder.encode(creator.getPassword()));
+        creatorsRepository.save(creator);
+        return verify(creator);
+      } else {
+        throw new IllegalArgumentException("Username, email or password must not be blank");
+      }
+    } catch (IllegalArgumentException ex) {
+      throw new RuntimeException("Insert a  valid username, email or password", ex);
     }
   }
 
-  public String register(Creator creator) {
-    creator.setPassword(encoder.encode(creator.getPassword()));
-    creatorsRepository.save(creator);
-    return verify(creator);
+  public String verify(Creator creator) {
+    try {
+      Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(creator.getEmail(), creator.getPassword()));
+      if (authentication.isAuthenticated()) {
+        return jwtService.generateToken(creator.getEmail());
+      } else {
+        throw new BadCredentialsException("Invalid credentials");
+      }
+    } catch (BadCredentialsException ex) {
+      throw new RuntimeException("Invalid username or password");
+    } catch (AuthenticationException ex) {
+      throw new RuntimeException("Authentication failed: " + ex.getMessage());
+    }
   }
 
   public Creator getCurrentCreator() {
@@ -51,6 +70,12 @@ public class CreatorService {
       }
     }
     return null;
+  }
+
+  public void clearCurrentCreatorBookmarks() {
+    Creator creator = getCurrentCreator();
+    creator.getBookmarks().clear();
+    creatorsRepository.save(creator);
   }
 
   public void removeBookmarks(Video video) {
