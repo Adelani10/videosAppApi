@@ -30,8 +30,7 @@ public class VideoService {
   }
 
   public List<Video> getCreatorVideos() {
-    String creatorId = creatorService.getCurrentCreator().getAccountId().toString();
-    System.out.println("Creator ID: " + creatorId);
+    String creatorId = creatorService.getCurrentCreator().getAccountId();
     return videoRepo.findByCreatorId(creatorId);
   }
 
