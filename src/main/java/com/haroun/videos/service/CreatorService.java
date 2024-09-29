@@ -72,8 +72,7 @@ public class CreatorService {
     return null;
   }
 
-  public void clearCurrentCreatorBookmarks() {
-    Creator creator = getCurrentCreator();
+  public void clearCurrentCreatorBookmarks(Creator creator) {
     creator.getBookmarks().clear();
     creatorsRepository.save(creator);
   }
